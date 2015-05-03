@@ -1,0 +1,31 @@
+{
+  "name": "JebWeb",
+  "version": "0.1.0",
+  "description": "Bootstrap for personal projects, plus a memory bank for tracking personal best-practices with certain tools.",
+  "author": "Jason Eberle",
+  "repository": "https://github.com/jayeb/jebweb.git",
+  "devDependencies": {
+    "bower": "^1.4.1",
+    "git-validate": "^1.1.2",
+    "grunt": "^0.4.5",
+    "grunt-autoprefixer": "^3.0.0",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-cssmin": "^0.12.2",
+    "grunt-contrib-imagemin": "^0.9.4",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-contrib-stylus": "^0.21.0",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-express": "^1.4.1",
+    "grunt-jscs": "^1.8.0",
+    "grunt-processhtml": "^0.3.7",
+    "grunt-svgstore": "^0.5.0",
+    "jit-grunt": "^0.9.1",
+    "jscs": "^1.13.1",
+    "jshint": "^2.7.0",
+    "jshint-stylish": "^1.0.1",
+    "main-bower-files": "^2.7.0",
+    "time-grunt": "^1.1.1"
+  }
+}
