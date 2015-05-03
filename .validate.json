@@ -1,7 +1,6 @@
 {
   "scripts": {
-    "jshint": "jshint ./app",
-    "jscs": "jscs ./app"
+    "lint": "jshint ."
   },
-  "pre-commit": ["jshint", "jscs"]
+  "pre-commit": ["lint", "validate", "test"]
 }

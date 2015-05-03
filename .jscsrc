@@ -2,7 +2,7 @@
   "disallowAnonymousFunctions": true,
   "disallowEmptyBlocks": true,
   "disallowImplicitTypeConversion": ["numeric", "binary", "string"],
-  "disallowKeywordsOnNewLine": true,
+  "disallowKeywordsOnNewLine": ["else"],
   "disallowMultipleLineBreaks": true,
   "disallowMultipleLineStrings": true,
   "disallowMultipleSpaces": true,
