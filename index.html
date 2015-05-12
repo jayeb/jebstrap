@@ -1,0 +1,78 @@
+<!doctype html>
+<html ng-app="Scoreboard">
+<head>
+  <meta charset="utf-8">
+  <title>Scoreboard</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- process:css:prod styles/scoreboard.min.css -->
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/player.css">
+  <!-- /process -->
+
+  <!-- process:js:prod scripts/libs.min.js -->
+    <script type="text/javascript" src=".tmp/js_libs/jquery.js"></script>
+<script type="text/javascript" src=".tmp/js_libs/bootstrap.js"></script>
+<script type="text/javascript" src=".tmp/js_libs/angular.js"></script>
+<script type="text/javascript" src=".tmp/js_libs/ngstorage.js"></script>
+<script type="text/javascript" src=".tmp/js_libs/lodash.js"></script>
+  <!-- /process -->
+
+  <!-- process:js:prod scripts/scoreboard.min.js -->
+    <script type="text/javascript" src="scripts/app.js"></script>
+
+    <!-- Services -->
+    <script type="text/javascript" src="scripts/service.getid.js"></script>
+    <script type="text/javascript" src="scripts/service.getname.js"></script>
+
+    <!-- Factories -->
+    <script type="text/javascript" src="scripts/factory.player.js"></script>
+
+    <!-- Controllers -->
+    <script type="text/javascript" src="scripts/controller.playerlist.js"></script>
+    <script type="text/javascript" src="scripts/controller.player.js"></script>
+
+    <!-- Directives -->
+    <script type="text/javascript" src="scripts/directive.player.js"></script>
+  <!-- /process -->
+
+  <link rel="stylesheet" href=".tmp/css_libs/bootstrap.css" />
+<link rel="stylesheet" href=".tmp/css_libs/competent-meyerweb-reset.css" />
+</head>
+<body ng-controller="PlayerListController">
+  <!-- process:include svg/icons.svg --><!-- /process -->
+
+  <header class="header">
+    <div class="header-content">
+      <button class="header-button">
+        <svg class="icon icon-sort-order"><use xlink:href="#icon-sort-order"></use></svg>
+      </button>
+      <button class="header-button">
+        <svg class="icon icon-reset"><use xlink:href="#icon-reset"></use></svg>
+      </button>
+      <button class="header-button">
+        <svg class="icon icon-more"><use xlink:href="#icon-more"></use></svg>
+      </button>
+
+      <button class="header-button-newPlayer" data-color="{{ nextColor() }}" ng-hide="{{ allowMorePlayers() }}" ng-cloak>
+        <svg class="icon icon-new-player"><use xlink:href="#icon-new-player"></use></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="players" data-count="{{ players.length }}" ng-cloak>
+    <player ng-repeat="player in players"
+      class="player"
+      ng-class="{'has-dirty-score': scoreIsDirty, 'is-editing': isEditing}"
+      data-rank="{{ rank(player) }}"
+      data-player-id="{{ player.id }}"></player>
+  </div>
+
+
+  <!-- process:remove:dev -->
+  <!-- GA code goes here -->
+  <!-- /process -->
+</body>
+</html>

@@ -3,10 +3,9 @@
   "version": "0.1.0",
   "description": "Bootstrap for personal projects, plus a memory bank for tracking personal best-practices with certain tools.",
   "author": "Jason Eberle",
-  "repository": "https://github.com/jayeb/jebweb.git",
+  "repository": "jayeb/jebweb.git",
   "devDependencies": {
     "bower": "^1.4.1",
-    "git-validate": "^1.1.2",
     "grunt": "^0.4.5",
     "grunt-autoprefixer": "^3.0.0",
     "grunt-contrib-clean": "^0.6.0",
@@ -21,17 +20,19 @@
     "grunt-jscs": "^1.8.0",
     "grunt-processhtml": "^0.3.7",
     "grunt-svgstore": "^0.5.0",
+    "htmlprocessor": "^0.1.10",
     "jit-grunt": "^0.9.1",
     "jscs": "^1.13.1",
     "jshint": "^2.7.0",
-    "jshint-stylish": "^1.0.1",
-    "main-bower-files": "^2.7.0",
+    "lodash": "^3.8.0",
     "precommit-hook": "^2.0.1",
-    "time-grunt": "^1.1.1"
+    "reporter-plus": "git://github.com/jayeb/reporter-plus",
+    "time-grunt": "^1.1.1",
+    "wiredep": "^2.2.2"
   },
   "scripts": {
-    "jshint": "jshint ./app/scripts",
-    "jscs": "jscs ./app/scripts"
+    "jshint": "jshint --reporter=node_modules/reporter-plus/jshint/jshint.js ./app/scripts",
+    "jscs": "jscs --reporter=node_modules/reporter-plus/jscs/index.js ./app/scripts"
   },
   "pre-commit": [
     "jshint",
