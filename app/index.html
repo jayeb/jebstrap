@@ -1,27 +1,46 @@
 <!doctype html>
-<html ng-app="Scoreboard">
+<html>
 <head>
   <meta charset="utf-8">
-  <title>Scoreboard</title>
+  <title>Jebweb App</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <!-- process:css:prod styles/scoreboard.min.css -->
-
-  <!-- /process -->
-
   <!-- process:js:prod scripts/libs.min.js -->
-    <!-- importbower:js -->
+    <!-- bundle:js libs -->
+      <!-- importbower:js -->
+    <!-- /bundle -->
   <!-- /process -->
 
-  <!-- process:js:prod scripts/scoreboard.min.js -->
+  <!-- process:js:prod scripts/app.min.js -->
+    <!-- bundle:js app -->
+      <script src="scripts/a.js"></script>
+      <script src="scripts/b.js"></script>
+      <script src="scripts/c.js"></script>
+    <!-- /bundle -->
 
+    <!-- bundle:js utils -->
+      <script src="scripts/utils.1.js"></script>
+      <script src="scripts/utils.2.js"></script>
+    <!-- /bundle -->
   <!-- /process -->
 
-  <!-- importbower:css -->
+  <!-- process:css:prod scripts/libs.min.css -->
+    <!-- bundle:css libs -->
+      <!-- importbower:css -->
+    <!-- /bundle -->
+  <!-- /process -->
+
+  <!-- process:css:prod styles/app.min.css -->
+    <!-- bundle:css app -->
+      <link rel="stylesheet" href="styles/a.css"/>
+      <link rel="stylesheet" href="styles/b.css"/>
+      <link rel="stylesheet" href="styles/c.css"/>
+    <!-- /bundle -->
+  <!-- /process -->
 </head>
-<body ng-controller="PlayerListController">
-  <!-- process:include svg/icons.svg --><!-- /process -->
+<body>
+  <!-- process:include svg/icons.svg /process -->
 
 
 
