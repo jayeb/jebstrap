@@ -1,13 +1,15 @@
 {
-  "name": "JebWeb",
+  "name": "jebWeb",
   "version": "0.1.0",
   "description": "Bootstrap for personal projects, plus a memory bank for tracking personal best-practices with certain tools.",
   "author": "Jason Eberle",
   "repository": "jayeb/jebweb.git",
   "devDependencies": {
     "bower": "^1.4.1",
+    "chalk": "^1.0.0",
     "grunt": "^0.4.5",
     "grunt-autoprefixer": "^3.0.0",
+    "grunt-chromeload": "git://github.com/jayeb/grunt-chromeload.git",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-copy": "^0.8.0",
     "grunt-contrib-cssmin": "^0.12.2",
@@ -17,6 +19,7 @@
     "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-express": "^1.4.1",
+    "grunt-importbower": "git://github.com/jayeb/grunt-importbower.git",
     "grunt-jscs": "^1.8.0",
     "grunt-processhtml": "^0.3.7",
     "grunt-svgstore": "^0.5.0",
@@ -26,7 +29,7 @@
     "jshint": "^2.7.0",
     "lodash": "^3.8.0",
     "precommit-hook": "^2.0.1",
-    "reporter-plus": "git://github.com/jayeb/reporter-plus",
+    "reporter-plus": "git://github.com/jayeb/reporter-plus.git",
     "time-grunt": "^1.1.1",
     "wiredep": "^2.2.2"
   },
