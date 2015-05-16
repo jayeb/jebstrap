@@ -1,4 +1,4 @@
-# JebWeb
+# jebWeb
 
 JebWeb is my bootstrap repo for personal projects. It's also where I can experiment with best practices involving various development tools and techniques.
 
@@ -24,7 +24,7 @@ This project uses:
 
 ### Project structure:
 - Any work on the app itself will occur in the `/app` directory.
-- Files in the root directory are meta-files intended mainly for tools, to describe how to build and maintain the project. You mostly won't need to touch these. 
+- Files in the root directory are meta-files intended mainly for tools, to describe how to build and maintain the project. You mostly won't need to touch these.
 
 ### Available Grunt tasks:
 - **`grunt serve`** (alias of `grunt serve:dev`) will build the project in development mode
