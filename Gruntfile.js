@@ -194,34 +194,17 @@ module.exports = function(grunt) {
 
     // Server and loading tasks
     express: {
-        dev: {
-            options: {
-                port: 9010,
-                hostname: '0.0.0.0',
-                bases: ['_dev']
-              }
-          },
-        prod: {
-            options: {
-                port: 9011,
-                hostname: '0.0.0.0',
-                bases: ['_prod']
-              }
+        options: {
+            port: env === 'dev' ? 9010 : 9011,
+            hostname: '0.0.0.0',
+            bases: env === 'dev' ? ['_dev'] : ['_prod']
           }
       },
-    load: {
-        dev: [
-            {
-                reload_pattern: 'https?:\/\/<%= express.dev.options.hostname %>:<%= express.dev.options.port %>',
-                new_url: 'http://<%= express.dev.options.hostname %>:<%= express.dev.options.port %>'
-              },
-          ],
-        prod: [
-            {
-                reload_pattern: 'https?:\/\/<%= express.prod.options.hostname %>:<%= express.prod.options.port %>',
-                new_url: 'http://<%= express.prod.options.hostname %>:<%= express.prod.options.port %>'
-              }
-          ]
+    chromeload: {
+        server: {
+            reload_pattern: 'https?:\/\/<%= express.options.hostname %>:<%= express.options.port %>',
+            new_url: 'http://<%= express.options.hostname %>:<%= express.options.port %>'
+          }
       },
     watch: {
         dev: {
