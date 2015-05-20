@@ -405,78 +405,14 @@ module.exports = function(grunt) {
   });
 
 
-
-
-
-
-
-
-
-
-
   // Default task.
-  grunt.registerTask('default', ['build:dev']);
+  grunt.registerTask('default', ['build:all']);
 
-  grunt.registerTask('build:dev', [
-    // Start fresh
-    'clean:temp',
-
-    // Process Javascript
-    'jshint',
-    'bower',
-
-    // Process CSS
-    'stylus',
-    'autoprefixer',
-
-    // Process images and SVG
-    'svgstore',
-
-    // HTML
-    'processhtml:dev',
-
-    // Finish
-    'clean:dev',
-    'copy:to_dev'
+  grunt.registerTask('serve', [
+    'build:all',
+    'express',
+    'load',
+    'watch'
   ]);
-  grunt.registerTask('build:prod', [
-    // Start fresh
-    'clean:temp',
-
-    // Process Javascript
-    'jshint',
-    'bower',
-    'uglify',
-
-    // Process CSS
-    'stylus',
-    'autoprefixer',
-    'cssmin',
-
-    // Process images and SVG
-    'imagemin',
-    'svgstore',
-
-    // Process HTML
-    'processhtml:prod',
-
-    // Finish
-    'clean:prod',
-    'copy:to_prod'
-  ]);
-
-  grunt.registerTask('serve:dev', [
-    'build:dev',
-    'express:dev',
-    'load:dev',
-    'watch:dev'
-  ]);
-  grunt.registerTask('serve:prod', [
-    'build:prod',
-    'express:prod',
-    'load:prod',
-    'watch:prod'
-  ]);
-  grunt.registerTask('serve', ['serve:dev']);
 
 };
