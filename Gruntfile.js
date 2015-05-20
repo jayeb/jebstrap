@@ -108,7 +108,7 @@ module.exports = function(grunt) {
         options: {
             prefix : 'icon-',
             svg: {
-                style: 'position:absolute;width:0;height:0;visibility:hidden;',
+                style: 'position:absolute; width:0; height:0; visibility:hidden;',
                 xmlns: 'http://www.w3.org/2000/svg'
               }
           }
@@ -357,16 +357,15 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('build:svg', function() {
-    // '<%= paths.temp %>/svg/icons.svg': ['<%= paths.working %>/svg/*.svg']
     var tasks = [],
         files;
 
     tasks.push(
       {
           task: 'svgstore',
-            fileDefaults: {
-                dest: grunt.config('default_filename') + '.svg'
-              }
+          fileDefaults: {
+              dest: 'icons.svg'
+            }
         }
     );
 
