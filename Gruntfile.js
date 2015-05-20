@@ -207,24 +207,59 @@ module.exports = function(grunt) {
           }
       },
     watch: {
-        dev: {
+        js: {
             files: [
-                '<%= paths.working %>/**/*',
-                'bower.json'
+                '<%= paths.working %>/scripts/**/*.js',
               ],
             tasks: [
-                'build:dev',
-                'load:dev'
+                'build:js',
+                'chromeload:server'
               ]
           },
-        prod: {
+        css: {
             files: [
-                '<%= paths.working %>/**/*',
-                'bower.json'
+                '<%= paths.working %>/styles/**/*.css',
               ],
             tasks: [
-                'build:prod',
-                'load:prod'
+                'build:css',
+                'chromeload:server'
+              ]
+          },
+        images: {
+            files: [
+                '<%= paths.working %>/images/**/*.{jpg,jpeg,gif,png}',
+              ],
+            tasks: [
+                'build:images',
+                'chromeload:server'
+              ]
+          },
+        svg: {
+            files: [
+                '<%= paths.working %>/svg/**/*.svg',
+              ],
+            tasks: [
+                'build:svg',
+                'chromeload:server'
+              ]
+          },
+        html: {
+            files: [
+                '<%= paths.working %>/**/*.html',
+              ],
+            tasks: [
+                'build:html',
+                'chromeload:server'
+              ]
+          },
+        libs: {
+            files: [
+                'bower.json',
+              ],
+            tasks: [
+                'build:libs',
+                'build:html',
+                'chromeload:server'
               ]
           }
       }
