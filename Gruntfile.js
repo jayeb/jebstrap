@@ -379,6 +379,42 @@ module.exports = function(grunt) {
     pipe.run(tasks, files);
   });
 
+  function getBundles(fromFile) {
+    var html = grunt.file.read(fromFile),
+        parseBundle,
+        bundleRegex = /<!-- bundle:([a-z]+)\s(\w+) -->((?:.|\n)+?)<!-- \/bundle -->/gim,
+        tagRegex = /<.*?(?:(?:src)|(?:href))="(.+?)".*?>/gi,
+        bundle,
+        bundles = {};
+
+    parseBundle = _.spread(function(match, type, name, contents) {
+      var tag,
+          files = [];
+
+      if (!bundles[type]) {
+        bundles[type] = {};
+      }
+
+      while (tag = tagRegex.exec(contents)) {
+        files.push(tag[1]);
+      }
+
+      // Reset index so the next bundle can re-use this regex
+      tagRegex.lastIndex = 0;
+
+      bundles[type][name] = files;
+    });
+
+    while (bundle = bundleRegex.exec(html)) {
+      parseBundle(bundle);
+    }
+
+    return bundles;
+  };
+
+  grunt.registerTask('bundles', function() {
+    console.log(getBundles(grunt.config('paths.working') + '/index.html'));
+  });
 
 
 
