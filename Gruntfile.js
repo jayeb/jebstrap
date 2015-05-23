@@ -2,7 +2,8 @@ var _ = require('lodash');
 
 module.exports = function(grunt) {
   var env = (grunt.option('env') === 'prod' ? 'prod' : 'dev'),
-      pipe = require('./utils/pipe-grunt')(grunt);
+      pipe = require('./utils/pipe-grunt')(grunt),
+      bundleHunter = require('./utils/bundlehunter-grunt')(grunt);
 
   require('time-grunt')(grunt);
   require('jit-grunt')(grunt);
@@ -268,27 +269,40 @@ module.exports = function(grunt) {
   /* --- Build tasks for specific filetypes ---*/
 
   grunt.registerTask('build:js', function() {
-    var tasks = [],
+    var tasks,
+        bundles,
         files;
 
     tasks = [
       {
           task: 'jshint',
-          fileDefaults: false
+          files: false
         },
       {
           task: 'jscs',
-          fileDefaults: false
+          files: false
         }
     ];
 
     if (env === 'prod') {
+      bundles = bundleHunter.findIn({
+        expand: true,
+        cwd: grunt.config('paths.working'),
+        src: '*.html'
+      }, {
+        types: ['js'],
+        disallowBundles: ['libs']
+      });
+
       tasks.push(
         {
             task: 'uglify',
-            fileDefaults: {
-                dest: grunt.config('default_filename') + '.min.js'
-              }
+            files: _.map(bundles.js, function(bundleFiles, bundleName) {
+                return {
+                  src: bundleFiles,
+                  dest: bundleName + '.min.js'
+                };
+              })
           }
       );
     }
@@ -305,12 +319,14 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build:css', function() {
     var tasks,
+        bundles,
         files;
+
 
     tasks = [
       {
           task: 'stylus',
-          fileDefaults: {
+          files: {
               ext: '.css'
             }
         },
@@ -318,12 +334,24 @@ module.exports = function(grunt) {
     ];
 
     if (env === 'prod') {
+      bundles = bundleHunter.findIn({
+        expand: true,
+        cwd: grunt.config('paths.working'),
+        src: '*.html'
+      }, {
+        types: ['css'],
+        disallowBundles: ['libs']
+      });
+
       tasks.push(
         {
             task: 'cssmin',
-            fileDefaults: {
-                dest: grunt.config('default_filename') + '.min.css'
-              }
+            files: _.map(bundles.css, function(bundleFiles, bundleName) {
+                return {
+                  src: bundleFiles,
+                  dest: bundleName + '.min.css'
+                };
+              })
           }
       );
     }
@@ -378,39 +406,6 @@ module.exports = function(grunt) {
 
     pipe.run(tasks, files);
   });
-
-  function getBundles(fromFile) {
-    var html = grunt.file.read(fromFile),
-        parseBundle,
-        bundleRegex = /<!-- bundle:([a-z]+)\s(\w+) -->((?:.|\n)+?)<!-- \/bundle -->/gim,
-        tagRegex = /<.*?(?:(?:src)|(?:href))="(.+?)".*?>/gi,
-        bundle,
-        bundles = {};
-
-    parseBundle = _.spread(function(match, type, name, contents) {
-      var tag,
-          files = [];
-
-      if (!bundles[type]) {
-        bundles[type] = {};
-      }
-
-      while (tag = tagRegex.exec(contents)) {
-        files.push(tag[1]);
-      }
-
-      // Reset index so the next bundle can re-use this regex
-      tagRegex.lastIndex = 0;
-
-      bundles[type][name] = files;
-    });
-
-    while (bundle = bundleRegex.exec(html)) {
-      parseBundle(bundle);
-    }
-
-    return bundles;
-  };
 
   grunt.registerTask('bundles', function() {
     console.log(getBundles(grunt.config('paths.working') + '/index.html'));
