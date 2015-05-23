@@ -267,7 +267,7 @@ module.exports = function(grunt) {
   });
 
   pipe = require('./utils/pipe-grunt')(grunt, {
-    tempCwd: grunt.config('paths.temp');
+    tempCwd: grunt.config('paths.temp')
   });
   bundleHunter = require('./utils/bundlehunter-grunt')(grunt);
 
