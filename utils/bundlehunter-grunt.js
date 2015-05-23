@@ -1,6 +1,7 @@
 var _ = require('lodash'),
     chalk = require('chalk'),
-    path = require('path');
+    path = require('path'),
+    wiredep = require('wiredep');
 
 module.exports = function bundleHunter(grunt) {
   var bundleRegex = /<!-- bundle:([a-z]+)\s(\w+) -->((?:.|\n)+?)<!-- \/bundle -->/gim,
@@ -61,9 +62,18 @@ module.exports = function bundleHunter(grunt) {
     });
 
     return bundles;
-  }
+  };
+
+  function findInBower(options) {
+    options = _.defaults(options, {
+      types: ['js', 'css'],
+      allowBundles: [],
+      disallowBundles: []
+    });
+  };
 
   return {
-    findIn: findIn
+    findIn: findIn,
+    findInBower: findInBower
   }
 };
