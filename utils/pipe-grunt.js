@@ -2,9 +2,13 @@ var _ = require('lodash'),
     chalk = require('chalk'),
     path = require('path');
 
-module.exports = function pipeGrunt(grunt) {
+module.exports = function pipeGrunt(grunt, options) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
+
+  options = _.defaults({}, options, {
+    tempCwd: '.',
+  });
 
   function parseTaskInfo(input) {
     var splitName;
@@ -41,7 +45,7 @@ module.exports = function pipeGrunt(grunt) {
   };
 
   function buildFileBlock(taskInfo, srcs, pipeTarget) {
-    var tempDir = '.' + [pipeTarget, taskInfo.task].join('-'),
+    var tempDir = options.tempCwd + '/.' + [pipeTarget, taskInfo.task].join('-'),
         newFiles,
         normalizedNewFiles,
         defaultFilesObj,
@@ -130,7 +134,7 @@ module.exports = function pipeGrunt(grunt) {
     newConfig.copy[pipeTarget] = {
       files: [files]
     };
-    newConfig.clean[pipeTarget + '-temps'] = ['.pipegrunt-*/'];
+    newConfig.clean[pipeTarget + '-temps'] = [option.tempCwd + '/.pipegrunt-*/'];
 
     grunt.config.merge(newConfig);
 
@@ -142,7 +146,7 @@ module.exports = function pipeGrunt(grunt) {
   };
 
   function pipeTasks(taskList, originalFiles) {
-    var pipeTarget = ['pipegrunt', _.now()].join('-'),
+    var pipeTarget = 'pipegrunt-' + _.now().toString;
         inputFiles,
         outputFiles,
         finalFiles;

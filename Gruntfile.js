@@ -2,8 +2,8 @@ var _ = require('lodash');
 
 module.exports = function(grunt) {
   var env = (grunt.option('env') === 'prod' ? 'prod' : 'dev'),
-      pipe = require('./utils/pipe-grunt')(grunt),
-      bundleHunter = require('./utils/bundlehunter-grunt')(grunt);
+      pipe,
+      bundleHunter;
 
   require('time-grunt')(grunt);
   require('jit-grunt')(grunt);
@@ -266,6 +266,11 @@ module.exports = function(grunt) {
       }
   });
 
+  pipe = require('./utils/pipe-grunt')(grunt, {
+    tempCwd: grunt.config('paths.temp');
+  });
+  bundleHunter = require('./utils/bundlehunter-grunt')(grunt);
+
   /* --- Build tasks for specific filetypes ---*/
 
   grunt.registerTask('build:js', function() {
@@ -410,7 +415,6 @@ module.exports = function(grunt) {
   grunt.registerTask('bundles', function() {
     console.log(getBundles(grunt.config('paths.working') + '/index.html'));
   });
-
 
 
   grunt.registerTask('build:libs', function() {
