@@ -15,7 +15,7 @@ module.exports = function pipeGrunt(grunt) {
         target: input.target,
         full: _.compact([input.task, input.target]).join(':'),
         config: input.config || {},
-        fileDefaults: input.fileDefaults
+        files: input.files
       };
     } else {
       splitName = input.split(':');
@@ -25,8 +25,8 @@ module.exports = function pipeGrunt(grunt) {
         target: splitName[1],
         full: input,
         config: undefined,
-        fileDefaults: {}
-      }
+        files: undefined
+      };
     }
   };
 
@@ -43,22 +43,69 @@ module.exports = function pipeGrunt(grunt) {
   function buildFileBlock(taskInfo, srcs, pipeTarget) {
     var tempDir = '.' + [pipeTarget, taskInfo.task].join('-'),
         newFiles,
-        normalizedNewFiles;
+        normalizedNewFiles,
+        defaultFilesObj,
+        srcsCwd = path.dirname(srcs[0]),
+        srcsBasenames = _.map(srcs, path.basename);
+
+    defaultFilesObj = {
+      expand: true,
+      cwd: srcsCwd,
+      src: srcsBasenames,
+      dest: tempDir
+    };
 
     // Build new file object
-    if (taskInfo.fileDefaults && taskInfo.fileDefaults.dest) {
-      // If a dest is set, then everything is going to one place (concat)
-      newFiles = {
-        src: srcs,
-        dest: tempDir + '/' + path.basename(taskInfo.fileDefaults.dest)
-      };
-    } else {
-      newFiles = _.extend({}, taskInfo.fileDefaults, {
-        expand: true,
-        cwd: path.dirname(srcs[0]),
-        src: _.map(srcs, path.basename),
-        dest: tempDir
-      });
+    if (taskInfo.files) {
+      if (_.isArray(taskInfo.files)) {
+        newFiles = {
+          files: _.map(taskInfo.files, function mapTaskFiles(fileObj) {
+              var mappedSrcs,
+                  dest;
+
+              mappedSrcs = _.chain([fileObj.src]).flatten().map(function(src) {
+                var base = path.basename(src);
+
+                if (_.contains(srcsBasenames, base)) {
+                  return srcsCwd + '/' + base;
+                } else {
+                  return null;
+                }
+              }).compact().value();
+
+              dest = tempDir;
+              if (fileObj.dest) {
+                dest += '/' + path.basename(fileObj.dest);
+              }
+
+              grunt.file.write(dest, '');
+
+              return {
+                src: mappedSrcs,
+                dest: dest
+              };
+            })
+        };
+      } else if (_.isObject(taskInfo.files)) {
+        if (taskInfo.files.dest) {
+        // If a dest is set, then everything is going to one place (concat)
+          newFiles = {
+            src: srcs,
+            dest: tempDir + '/' + path.basename(taskInfo.files.dest)
+          };
+        } else {
+          newFiles = _.extend({}, taskInfo.files, defaultFilesObj);
+        }
+      } else if (_.isString(taskInfo.files))  {
+        newFiles = {
+          src: srcs,
+          dest: tempDir + '/' + taskInfo.files
+        };
+      }
+    }
+
+    if (!newFiles) {
+      newFiles = defaultFilesObj;
     }
 
     normalizedNewFiles = grunt.task.normalizeMultiTaskFiles(newFiles);
@@ -69,30 +116,30 @@ module.exports = function pipeGrunt(grunt) {
     });
 
     return normalizedNewFiles;
-  }
+  };
 
   function copyAndClean(files, pipeTarget) {
-    var config = {
-            clean: {},
-            copy: {}
-          };
+    var newConfig = {
+          clean: {},
+          copy: {}
+        };
 
     // One final task to move files to ultimate destination
-    config.clean[pipeTarget + '-dest'] = [files.dest];
+    newConfig.clean[pipeTarget + '-dest'] = [files.dest];
 
-    config.copy[pipeTarget] = {
+    newConfig.copy[pipeTarget] = {
       files: [files]
     };
-    config.clean[pipeTarget + '-temps'] = ['.pipegrunt-*/'];
+    newConfig.clean[pipeTarget + '-temps'] = ['.pipegrunt-*/'];
 
-    grunt.config.merge(config);
+    grunt.config.merge(newConfig);
 
     grunt.task.run([
       'clean:' + pipeTarget + '-dest',
       'copy:' + pipeTarget,
       'clean:' + pipeTarget + '-temps'
     ]);
-  }
+  };
 
   function pipeTasks(taskList, originalFiles) {
     var pipeTarget = ['pipegrunt', _.now()].join('-'),
@@ -105,9 +152,7 @@ module.exports = function pipeGrunt(grunt) {
       .flatten()
       .value();
 
-    if (!_.isArray(taskList)) {
-      taskList = [taskList];
-    }
+    taskList = _.flatten([taskList]);
 
     if (taskList.length) {
       // Execute tasks
@@ -119,7 +164,7 @@ module.exports = function pipeGrunt(grunt) {
         newConfig[taskInfo.task] = {};
         newConfig[taskInfo.task][pipeTarget] = buildNewConfig(taskInfo);
 
-        if (taskInfo.fileDefaults !== false && srcs.length) {
+        if (taskInfo.files !== false && srcs.length) {
           newFiles = buildFileBlock(taskInfo, srcs, pipeTarget);
           newConfig[taskInfo.task][pipeTarget].files = newFiles;
         }
@@ -154,5 +199,5 @@ module.exports = function pipeGrunt(grunt) {
 
   return {
     run: pipeTasks
-  }
+  };
 };
