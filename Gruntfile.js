@@ -115,6 +115,16 @@ module.exports = function(grunt) {
           }
       },
 
+    // HTML
+    processhtml: {
+        options: {
+            commentMarker: 'process',
+            includeBase: '<%= paths.srv %>',
+            environment: env,
+            strip: true
+          }
+      },
+
     // Bower libs
     importbower: {
         all: {
@@ -135,59 +145,6 @@ module.exports = function(grunt) {
                     cwd: '<%= paths[grunt.task.current.args[0]] %>',
                     src: '*.html',
                     dest: '<%= paths[grunt.task.current.args[1]] %>/html'
-                  }
-              ]
-          }
-      },
-
-    // HTML
-    processhtml: {
-        options: {
-            commentMarker: 'process',
-            includeBase: '<%= paths.temp %>',
-            strip: true
-          },
-        dev: {
-            files: [
-                {
-                    expand: true,
-                    cwd: '<%= paths.working %>/partials',
-                    src: '*.html',
-                    dest: '<%= paths.temp %>/partials'
-                  },
-                {
-                    expand: true,
-                    cwd: '<%= paths.working %>',
-                    src: '*.html',
-                    dest: '<%= paths.temp %>/html'
-                  },
-                {
-                    expand: true,
-                    cwd: '<%= paths.working %>/templates',
-                    src: '*.html',
-                    dest: '<%= paths.temp %>/templates'
-                  }
-              ]
-          },
-        prod: {
-            files: [
-                {
-                    expand: true,
-                    cwd: '<%= paths.working %>/partials',
-                    src: '*.html',
-                    dest: '<%= paths.temp %>/partials'
-                  },
-                {
-                    expand: true,
-                    cwd: '<%= paths.working %>',
-                    src: '*.html',
-                    dest: '<%= paths.temp %>/html'
-                  },
-                {
-                    expand: true,
-                    cwd: '<%= paths.working %>/templates',
-                    src: '*.html',
-                    dest: '<%= paths.temp %>/templates'
                   }
               ]
           }
@@ -267,7 +224,7 @@ module.exports = function(grunt) {
   });
 
   pipe = require('./utils/pipe-grunt')(grunt, {
-    tempCwd: grunt.config('paths.temp')
+    tempCwd: grunt.config('paths.tmp')
   });
   bundleHunter = require('./utils/bundlehunter-grunt')(grunt);
 
@@ -396,7 +353,7 @@ module.exports = function(grunt) {
     tasks.push(
       {
           task: 'svgstore',
-          fileDefaults: {
+          files: {
               dest: 'icons.svg'
             }
         }
@@ -412,34 +369,92 @@ module.exports = function(grunt) {
     pipe.run(tasks, files);
   });
 
-  grunt.registerTask('bundles', function() {
-    console.log(getBundles(grunt.config('paths.working') + '/index.html'));
+  grunt.registerTask('build:partials', function() {
+    var tasks = [],
+        files;
+
+    tasks.push({
+      task: 'processhtml'
+    });
+
+    files = {
+      expand: true,
+      cwd: grunt.config('paths.working') + '/partials',
+      src: '**/*.html',
+      dest: grunt.config('paths.srv') + '/partials'
+    };
+
+    pipe.run(tasks, files);
   });
 
+  grunt.registerTask('build:templates', function() {
+    var tasks = [],
+        files;
 
-  grunt.registerTask('build:libs', function() {
-    if (target === 'prod') {
-      grunt.task.run([
-        'clean:tmp:js_libs',
-        'importbower:tmp:js_libs',
-        'clean:tmp:css_libs',
-        'uglify:js:tmp:srv',
-        'clean:srv:js_libs',
-        'copy:js:working:srv'
-      ]);
+    tasks.push({
+      task: 'processhtml'
+    });
 
-    } else {
-      grunt.task.run([
-        'clean:tmp:js_libs',
-        'clean:tmp:css_libs',
-        'importbower:tmp',
-        'copy:js_libs:working:srv',
-      ]);
-    }
+    files = {
+      expand: true,
+      cwd: grunt.config('paths.working') + '/templates',
+      src: '**/*.html',
+      dest: grunt.config('paths.srv') + '/templates'
+    };
+
+    pipe.run(tasks, files);
   });
+
+  grunt.registerTask('build:html', function() {
+    var tasks = [],
+        files;
+
+    tasks.push('processhtml');
+
+    files = {
+      expand: true,
+      cwd: grunt.config('paths.working'),
+      src: '*.html',
+      dest: grunt.config('paths.srv')
+    };
+
+    pipe.run(tasks, files, {preclean: false});
+  });
+
+  grunt.registerTask('build:all', [
+    'build:js',
+    'build:css',
+    'build:images',
+    'build:svg',
+    // 'build:templates',
+    // 'build:partials',
+    'build:html'
+  ]);
+
+  // grunt.registerTask('build:libs', function() {
+  //   if (target === 'prod') {
+  //     grunt.task.run([
+  //       'clean:tmp:js_libs',
+  //       'importbower:tmp:js_libs',
+  //       'clean:tmp:css_libs',
+  //       'uglify:js:tmp:srv',
+  //       'clean:srv:js_libs',
+  //       'copy:js:working:srv'
+  //     ]);
+
+  //   } else {
+  //     grunt.task.run([
+  //       'clean:tmp:js_libs',
+  //       'clean:tmp:css_libs',
+  //       'importbower:tmp',
+  //       'copy:js_libs:working:srv',
+  //     ]);
+  //   }
+  // });
 
 
   // Default task.
+  grunt.registerTask('build', ['build:all']);
   grunt.registerTask('default', ['build:all']);
 
   grunt.registerTask('serve', [
