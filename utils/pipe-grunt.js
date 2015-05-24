@@ -2,11 +2,11 @@ var _ = require('lodash'),
     chalk = require('chalk'),
     path = require('path');
 
-module.exports = function pipeGrunt(grunt, options) {
+module.exports = function pipeGrunt(grunt, pipeOptions) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
 
-  options = _.defaults({}, options, {
+  pipeOptions = _.defaults({}, pipeOptions, {
     tempCwd: '.',
   });
 
@@ -45,7 +45,7 @@ module.exports = function pipeGrunt(grunt, options) {
   };
 
   function buildFileBlock(taskInfo, srcs, pipeTarget) {
-    var tempDir = options.tempCwd + '/.' + [pipeTarget, taskInfo.task].join('-'),
+    var tempDir = path.join(pipeOptions.tempCwd, '.' + pipeTarget + '-' + taskInfo.task),
         newFiles,
         normalizedNewFiles,
         defaultFilesObj,
@@ -71,7 +71,7 @@ module.exports = function pipeGrunt(grunt, options) {
                 var base = path.basename(src);
 
                 if (_.contains(srcsBasenames, base)) {
-                  return srcsCwd + '/' + base;
+                  return path.join(srcsCwd, base);
                 } else {
                   return null;
                 }
@@ -79,7 +79,7 @@ module.exports = function pipeGrunt(grunt, options) {
 
               dest = tempDir;
               if (fileObj.dest) {
-                dest += '/' + path.basename(fileObj.dest);
+                dest += path.join(dest, path.basename(fileObj.dest));
               }
 
               grunt.file.write(dest, '');
@@ -95,7 +95,7 @@ module.exports = function pipeGrunt(grunt, options) {
         // If a dest is set, then everything is going to one place (concat)
           newFiles = {
             src: srcs,
-            dest: tempDir + '/' + path.basename(taskInfo.files.dest)
+            dest: path.join(tempDir, path.basename(taskInfo.files.dest))
           };
         } else {
           newFiles = _.extend({}, taskInfo.files, defaultFilesObj);
@@ -103,7 +103,7 @@ module.exports = function pipeGrunt(grunt, options) {
       } else if (_.isString(taskInfo.files))  {
         newFiles = {
           src: srcs,
-          dest: tempDir + '/' + taskInfo.files
+          dest: path.join(tempDir, taskInfo.files)
         };
       }
     }
@@ -122,34 +122,42 @@ module.exports = function pipeGrunt(grunt, options) {
     return normalizedNewFiles;
   };
 
-  function copyAndClean(files, pipeTarget) {
+  function copyAndClean(files, pipeTarget, preclean, postclean) {
     var newConfig = {
-          clean: {},
-          copy: {}
-        };
+            clean: {},
+            copy: {}
+          },
+        tasks = [];
 
     // One final task to move files to ultimate destination
-    newConfig.clean[pipeTarget + '-dest'] = [files.dest];
 
-    newConfig.copy[pipeTarget] = {
-      files: [files]
-    };
-    newConfig.clean[pipeTarget + '-temps'] = [option.tempCwd + '/.pipegrunt-*/'];
+    if (preclean) {
+      newConfig.clean[pipeTarget + '-dest'] = [files.dest];
+      tasks.push('clean:' + pipeTarget + '-dest');
+    }
+
+    newConfig.copy[pipeTarget] = {files: [files]};
+    tasks.push('copy:' + pipeTarget);
+
+    if (postclean) {
+      newConfig.clean[pipeTarget + '-temps'] = path.join(pipeOptions.tempCwd, '.pipegrunt-*/');
+      tasks.push('clean:' + pipeTarget + '-temps');
+    }
 
     grunt.config.merge(newConfig);
-
-    grunt.task.run([
-      'clean:' + pipeTarget + '-dest',
-      'copy:' + pipeTarget,
-      'clean:' + pipeTarget + '-temps'
-    ]);
+    grunt.task.run(tasks);
   };
 
-  function pipeTasks(taskList, originalFiles) {
-    var pipeTarget = 'pipegrunt-' + _.now().toString;
+  function pipeTasks(taskList, originalFiles, options) {
+    var pipeTarget = 'pipegrunt-' + _.now().toString(),
         inputFiles,
         outputFiles,
         finalFiles;
+
+    options = _.defaults({}, options, {
+      preclean: true,
+      postclean: true
+    });
 
     inputFiles = _.chain(grunt.task.normalizeMultiTaskFiles(originalFiles))
       .pluck('src')
@@ -198,7 +206,7 @@ module.exports = function pipeGrunt(grunt, options) {
       finalFiles = originalFiles;
     }
 
-    copyAndClean(finalFiles, pipeTarget);
+    copyAndClean(finalFiles, pipeTarget, options.preclean, options.postclean);
   };
 
   return {
