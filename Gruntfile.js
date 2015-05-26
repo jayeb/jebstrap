@@ -475,8 +475,9 @@ module.exports = function(grunt) {
     'build:css',
     'build:images',
     'build:svg',
-    // 'build:templates',
-    // 'build:partials',
+    'build:misc',
+    'build:templates',
+    'build:partials',
     'build:html'
   ]);
 
