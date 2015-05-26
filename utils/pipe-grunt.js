@@ -92,7 +92,6 @@ module.exports = function pipeGrunt(grunt, pipeOptions) {
         };
       } else if (_.isObject(taskInfo.files)) {
         if (taskInfo.files.dest) {
-        // If a dest is set, then everything is going to one place (concat)
           newFiles = {
             src: srcs,
             dest: path.join(tempDir, path.basename(taskInfo.files.dest))
@@ -196,12 +195,16 @@ module.exports = function pipeGrunt(grunt, pipeOptions) {
         }
       }, inputFiles);
 
-      finalFiles = {
-        expand: true,
-        cwd: path.dirname(outputFiles[0]),
-        src: '**/*',
-        dest: originalFiles.dest
-      };
+      if (outputFiles.length) {
+        finalFiles = {
+          expand: true,
+          cwd: path.dirname(outputFiles[0]),
+          src: '**/*',
+          dest: originalFiles.dest
+        };
+      } else {
+        finalFiles = originalFiles;
+      }
     } else {
       finalFiles = originalFiles;
     }
