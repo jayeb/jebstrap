@@ -10,6 +10,7 @@ module.exports = function bundleHunter(grunt) {
   function findIn(sourceFiles, options) {
     var inputFiles,
         bundles = {},
+        bundlesDict = {},
         parseBundle;
 
     options = _.defaults(options, {
@@ -70,11 +71,48 @@ module.exports = function bundleHunter(grunt) {
   };
 
   function findInBower(options) {
+    var dependencyData,
+        importNames = {},
+        bundles = {};
+
     options = _.defaults(options, {
-      types: ['js', 'css'],
-      allowBundles: [],
-      disallowBundles: []
+      allowLibs: [],
+      disallowLibs: [],
+      wiredep_options: {}
     });
+
+    _.each(options.types, function(type) {
+      bundles[type] = [];
+    });
+
+    dependencyData = wiredep(options.wiredep_options);
+
+    _.each(dependencyData.packages, function packageLoop(package, name) {
+      var packageBundles = {};
+
+      _.each(package.main, function mainfileLoop(src) {
+        type = path.extname(src).substr(1);
+
+        if (!packageBundles[type]) {
+          packageBundles[type] = {
+            name: name,
+            files: []
+          };
+        }
+
+        packageBundles[type].files.push(src);
+      });
+
+      _.each(packageBundles, function(packageBundle, type) {
+        if (!bundles[type]) {
+          bundles[type] = [];
+        }
+
+        bundles[type].push(packageBundle);
+      });
+    });
+
+    return bundles
   };
 
   return {
