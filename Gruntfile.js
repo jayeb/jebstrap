@@ -381,6 +381,43 @@ module.exports = function(grunt) {
     pipe.run(tasks, files);
   });
 
+  grunt.registerTask('build:libs', function() {
+    var libs = getBowerLibs(),
+        jsTasks = [],
+        cssTasks = [],
+        jsFiles,
+        cssFiles;
+
+    if (env === 'prod') {
+      jsTasks.push({
+        task: 'uglify',
+        files: 'libs.min.js'
+      });
+
+      cssTasks.push({
+        task: 'cssmin',
+        files: 'libs.min.css'
+      });
+    }
+
+    jsFiles = {
+      expand: true,
+      flatten: true,
+      src: _.chain(libs.js).pluck('files').flatten().value(),
+      dest: grunt.config('paths.srv') + '/libs/scripts'
+    };
+
+    cssFiles = {
+      expand: true,
+      flatten: true,
+      src: _.chain(libs.css).pluck('files').flatten().value(),
+      dest: grunt.config('paths.srv') + '/libs/styles'
+    };
+
+    pipe.run(jsTasks, jsFiles);
+    pipe.run(cssTasks, cssFiles);
+  });
+
   grunt.registerTask('build:partials', function() {
     var tasks = [],
         files;
@@ -442,28 +479,6 @@ module.exports = function(grunt) {
     // 'build:partials',
     'build:html'
   ]);
-
-  // grunt.registerTask('build:libs', function() {
-  //   if (target === 'prod') {
-  //     grunt.task.run([
-  //       'clean:tmp:js_libs',
-  //       'importbower:tmp:js_libs',
-  //       'clean:tmp:css_libs',
-  //       'uglify:js:tmp:srv',
-  //       'clean:srv:js_libs',
-  //       'copy:js:working:srv'
-  //     ]);
-
-  //   } else {
-  //     grunt.task.run([
-  //       'clean:tmp:js_libs',
-  //       'clean:tmp:css_libs',
-  //       'importbower:tmp',
-  //       'copy:js_libs:working:srv',
-  //     ]);
-  //   }
-  // });
-
 
   // Default task.
   grunt.registerTask('build', ['build:all']);
