@@ -3,7 +3,11 @@ var _ = require('lodash');
 module.exports = function(grunt) {
   var env = (grunt.option('env') === 'prod' ? 'prod' : 'dev'),
       pipe,
-      bundleHunter;
+      bundleHunter,
+      bundles,
+      getBundles,
+      bowerLibs,
+      getBowerLibs;
 
   require('time-grunt')(grunt);
   require('jit-grunt')(grunt);
@@ -228,6 +232,31 @@ module.exports = function(grunt) {
   });
   bundleHunter = require('./utils/bundlehunter-grunt')(grunt);
 
+  getBundles = function() {
+    if (!bundles) {
+      bundles = bundleHunter.findIn({
+        expand: true,
+        cwd: grunt.config('paths.working'),
+        src: '*.html'
+      }, {
+        types: ['js', 'css'],
+        disallowBundles: ['libs']
+      });
+    }
+
+    return bundles;
+  }
+
+  getBowerLibs = function () {
+    if (!bowerLibs) {
+      bowerLibs = bundleHunter.findInBower({
+        types: ['js', 'css']
+      });
+    }
+
+    return bowerLibs;
+  }
+
   /* --- Build tasks for specific filetypes ---*/
 
   grunt.registerTask('build:js', function() {
@@ -247,22 +276,14 @@ module.exports = function(grunt) {
     ];
 
     if (env === 'prod') {
-      bundles = bundleHunter.findIn({
-        expand: true,
-        cwd: grunt.config('paths.working'),
-        src: '*.html'
-      }, {
-        types: ['js'],
-        disallowBundles: ['libs']
-      });
-
+      bundles = getBundles();
       tasks.push(
         {
             task: 'uglify',
-            files: _.map(bundles.js, function(bundleFiles, bundleName) {
+            files: _.map(bundles.js, function(bundle) {
                 return {
-                  src: bundleFiles,
-                  dest: bundleName + '.min.js'
+                  src: bundle.files,
+                  dest: bundle.name + '.min.js'
                 };
               })
           }
@@ -284,7 +305,6 @@ module.exports = function(grunt) {
         bundles,
         files;
 
-
     tasks = [
       {
           task: 'stylus',
@@ -296,22 +316,14 @@ module.exports = function(grunt) {
     ];
 
     if (env === 'prod') {
-      bundles = bundleHunter.findIn({
-        expand: true,
-        cwd: grunt.config('paths.working'),
-        src: '*.html'
-      }, {
-        types: ['css'],
-        disallowBundles: ['libs']
-      });
-
+      bundles = getBundles();
       tasks.push(
         {
             task: 'cssmin',
-            files: _.map(bundles.css, function(bundleFiles, bundleName) {
+            files: _.map(bundles.css, function(bundle) {
                 return {
-                  src: bundleFiles,
-                  dest: bundleName + '.min.css'
+                  src: bundle.files,
+                  dest: bundle.name + '.min.css'
                 };
               })
           }
