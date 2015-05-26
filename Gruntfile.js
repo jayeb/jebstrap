@@ -113,7 +113,7 @@ module.exports = function(grunt) {
         options: {
             prefix : 'icon-',
             svg: {
-                style: 'position:absolute; width:0; height:0; visibility:hidden;',
+                style: 'position:absolute;width:0;height:0;visibility:hidden;',
                 xmlns: 'http://www.w3.org/2000/svg'
               }
           }
