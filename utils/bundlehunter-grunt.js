@@ -24,7 +24,8 @@ module.exports = function bundleHunter(grunt) {
       .value();
 
     _.each(options.types, function(type) {
-      bundles[type] = {};
+      bundles[type] = [];
+      bundlesDict[type] = {};
     });
 
     parseBundle = _.spread(function(match, type, name, contents) {
@@ -33,7 +34,7 @@ module.exports = function bundleHunter(grunt) {
 
       if (
         !!bundles[type] &&
-        !bundles[type][name] &&
+        !bundlesDict[type][name] &&
         !_.contains(options.disallowBundles, name) &&
         (!options.allowBundles.length || _.contains(options.allowBundles, name))
       ) {
@@ -45,7 +46,11 @@ module.exports = function bundleHunter(grunt) {
         // Reset index so the next bundle can re-use this regex
         tagRegex.lastIndex = 0;
 
-        bundles[type][name] = files;
+        bundles[type].push({
+          name: name,
+          files: files
+        });
+        bundlesDict[type][name] = true;
       }
     });
 
