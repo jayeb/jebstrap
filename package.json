@@ -8,6 +8,7 @@
     "bower": "^1.4.1",
     "bundlehunter": "git://github.com/jayeb/bundlehunter.git",
     "chalk": "^1.0.0",
+    "glob": "^5.0.10",
     "grunt": "^0.4.5",
     "grunt-autoprefixer": "^3.0.0",
     "grunt-chromeload": "git://github.com/jayeb/grunt-chromeload",

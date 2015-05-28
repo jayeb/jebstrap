@@ -69,6 +69,7 @@ module.exports = function(grunt) {
         options: {
             commentMarker: 'process',
             includeBase: '<%= paths.srv %>',
+            // customBlockTypes: ['utils/bowerblock.js'],
             environment: env,
             strip: true
           }
@@ -189,6 +190,9 @@ module.exports = function(grunt) {
       tasks.push(
         {
             task: 'uglify',
+            config: {
+                sourceMapRoot: paths.working + '/scripts'
+              },
             files: _.map(bundles.js, function(bundle) {
                 return {
                   src: bundle.files,
@@ -377,6 +381,7 @@ module.exports = function(grunt) {
         files;
 
     tasks.push('processhtml');
+    tasks.push('importbower');
 
     files = {
       expand: true,
@@ -411,16 +416,14 @@ module.exports = function(grunt) {
     'build:css',
     'build:images',
     'build:svg',
-    'build:misc',
+    'build:libs',
     'build:templates',
     'build:partials',
     'build:html',
     'build:misc'
   ]);
 
-  // Default task.
   grunt.registerTask('build', ['build:all']);
-  grunt.registerTask('default', ['build:all']);
 
   grunt.registerTask('serve', [
     'build:all',
@@ -429,4 +432,5 @@ module.exports = function(grunt) {
     'watch'
   ]);
 
+  grunt.registerTask('default', ['serve']);
 };
