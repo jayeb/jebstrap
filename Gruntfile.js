@@ -2,7 +2,6 @@ var _ = require('lodash');
 
 module.exports = function(grunt) {
   var env = (grunt.option('env') === 'prod' ? 'prod' : 'dev'),
-      pipe,
       bundleHunter,
       bundles,
       getBundles,
@@ -13,6 +12,7 @@ module.exports = function(grunt) {
           srv: '.' + env + '_srv',
           working: 'app'
         },
+      pipe = require('pipe-grunt')(grunt, {tempCwd: paths.tmp}),
 
   require('time-grunt')(grunt);
   require('jit-grunt')(grunt);
@@ -165,9 +165,6 @@ module.exports = function(grunt) {
       }
   });
 
-  pipe = require('./utils/pipe-grunt')(grunt, {
-    tempCwd: grunt.config('paths.tmp')
-  });
   bundleHunter = require('./utils/bundlehunter-grunt')(grunt);
 
   getBundles = function() {

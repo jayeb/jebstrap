@@ -28,6 +28,7 @@
     "jscs": "^1.13.1",
     "jshint": "^2.7.0",
     "lodash": "^3.8.0",
+    "pipe-grunt": "git://github.com/jayeb/pipe-grunt.git",
     "precommit-hook": "^2.0.1",
     "reporter-plus": "git://github.com/jayeb/reporter-plus.git",
     "time-grunt": "^1.1.1",
