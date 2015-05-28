@@ -2,8 +2,6 @@ var _ = require('lodash');
 
 module.exports = function(grunt) {
   var env = (grunt.option('env') === 'prod' ? 'prod' : 'dev'),
-      bowerLibs,
-      getBowerLibs;
       paths = {
           tmp: '.tmp',
           srv: '.' + env + '_srv',
@@ -11,6 +9,7 @@ module.exports = function(grunt) {
         },
       pipe = require('pipe-grunt')(grunt, {tempCwd: paths.tmp}),
       bundleHunter = require('bundlehunter'),
+      bowerDeps = require('./utils/bowerdeps');
 
   require('time-grunt')(grunt);
   require('jit-grunt')(grunt);
@@ -163,16 +162,6 @@ module.exports = function(grunt) {
       }
   });
 
-  getBowerLibs = function () {
-    if (!bowerLibs) {
-      bowerLibs = bundleHunter.findInBower({
-        types: ['js', 'css']
-      });
-    }
-
-    return bowerLibs;
-  }
-
   /* --- Build tasks for specific filetypes ---*/
 
   grunt.registerTask('build:js', function() {
@@ -306,11 +295,15 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('build:libs', function() {
-    var libs = getBowerLibs(),
+    var libs,
         jsTasks = [],
         cssTasks = [],
         jsFiles,
         cssFiles;
+
+    libs = bowerDeps({
+      types: ['js', 'css']
+    });
 
     if (env === 'prod') {
       jsTasks.push({
