@@ -8,6 +8,11 @@ module.exports = function(grunt) {
       getBundles,
       bowerLibs,
       getBowerLibs;
+      paths = {
+          tmp: '.tmp',
+          srv: '.' + env + '_srv',
+          working: 'app'
+        },
 
   require('time-grunt')(grunt);
   require('jit-grunt')(grunt);
@@ -16,13 +21,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     name: '<%= pkg.name %>',
     default_filename: '<%= pkg.name.toLowerCase().replace(/[^A-Za-z0-9]/g, "_") %>',
-    paths: {
-        tmp: '.tmp',
-        srv: '.' + env + '_srv',
-        working: 'app'
-      },
-
-
+    paths: paths,
 
     // Javascript
     jshint: {
@@ -80,26 +79,16 @@ module.exports = function(grunt) {
 
     // Bower libs
     importbower: {
-        all: {
-            options: {
-                cwd: '<%= paths[grunt.task.current.args[1]] %>',
-                import_types: {
-                    js: {
-                        dest: '<%= paths[grunt.task.current.args[1]] %>/js_libs'
-                      },
-                    css: {
-                        dest: '<%= paths[grunt.task.current.args[1]] %>/css_libs'
-                      }
+        options: {
+            cwd: '<%= paths.srv %>',
+            import_types: {
+                js: {
+                    dest: '<%= paths.srv %>/js_libs'
+                  },
+                css: {
+                    dest: '<%= paths.srv %>/css_libs'
                   }
-              },
-            files: [
-                {
-                    expand: true,
-                    cwd: '<%= paths[grunt.task.current.args[0]] %>',
-                    src: '*.html',
-                    dest: '<%= paths[grunt.task.current.args[1]] %>/html'
-                  }
-              ]
+              }
           }
       },
 
@@ -241,9 +230,9 @@ module.exports = function(grunt) {
 
     files = {
       expand: true,
-      cwd: grunt.config('paths.working') + '/scripts',
+      cwd: paths.working + '/scripts',
       src: '**/*.js',
-      dest: grunt.config('paths.srv') + '/scripts'
+      dest: paths.srv + '/scripts'
     };
 
     pipe.run(tasks, files);
@@ -281,9 +270,9 @@ module.exports = function(grunt) {
 
     files = {
       expand: true,
-      cwd: grunt.config('paths.working') + '/styles',
+      cwd: paths.working + '/styles',
       src: '**/*.styl',
-      dest: grunt.config('paths.srv') + '/styles'
+      dest: paths.srv + '/styles'
     };
 
     pipe.run(tasks, files);
@@ -299,9 +288,9 @@ module.exports = function(grunt) {
 
     files = {
       expand: true,
-      cwd: grunt.config('paths.working') + '/images',
+      cwd: paths.working + '/images',
       src: '**/*.{jpg,jpeg,gif,png}',
-      dest: grunt.config('paths.srv') + '/images'
+      dest: paths.srv + '/images'
     };
 
     pipe.run(tasks, files);
@@ -322,9 +311,9 @@ module.exports = function(grunt) {
 
     files = {
       expand: true,
-      cwd: grunt.config('paths.working') + '/svg',
+      cwd: paths.working + '/svg',
       src: '**/*.svg',
-      dest: grunt.config('paths.srv') + '/svg'
+      dest: paths.srv + '/svg'
     };
 
     pipe.run(tasks, files);
@@ -353,14 +342,14 @@ module.exports = function(grunt) {
       expand: true,
       flatten: true,
       src: _.chain(libs.js).pluck('files').flatten().value(),
-      dest: grunt.config('paths.srv') + '/libs/scripts'
+      dest: paths.srv + '/libs/scripts'
     };
 
     cssFiles = {
       expand: true,
       flatten: true,
       src: _.chain(libs.css).pluck('files').flatten().value(),
-      dest: grunt.config('paths.srv') + '/libs/styles'
+      dest: paths.srv + '/libs/styles'
     };
 
     pipe.run(jsTasks, jsFiles);
@@ -377,9 +366,9 @@ module.exports = function(grunt) {
 
     files = {
       expand: true,
-      cwd: grunt.config('paths.working') + '/partials',
+      cwd: paths.working + '/partials',
       src: '**/*.html',
-      dest: grunt.config('paths.srv') + '/partials'
+      dest: paths.srv + '/partials'
     };
 
     pipe.run(tasks, files);
@@ -395,9 +384,9 @@ module.exports = function(grunt) {
 
     files = {
       expand: true,
-      cwd: grunt.config('paths.working') + '/templates',
+      cwd: paths.working + '/templates',
       src: '**/*.html',
-      dest: grunt.config('paths.srv') + '/templates'
+      dest: paths.srv + '/templates'
     };
 
     pipe.run(tasks, files);
@@ -411,9 +400,9 @@ module.exports = function(grunt) {
 
     files = {
       expand: true,
-      cwd: grunt.config('paths.working'),
+      cwd: paths.working,
       src: '*.html',
-      dest: grunt.config('paths.srv')
+      dest: paths.srv
     };
 
     pipe.run(tasks, files, {preclean: false});
