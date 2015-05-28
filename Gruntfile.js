@@ -23,57 +23,6 @@ module.exports = function(grunt) {
       },
 
 
-    // File and directory manipulation
-    // copy: {
-    //     html: {
-    //         files: [
-    //             {
-    //                 expand: true,
-    //                 cwd: '<%= paths[grunt.task.current.args[0]] %>/',
-    //                 src: '*.html',
-    //                 dest: '<%= paths[grunt.task.current.args[1]] %>/'
-    //               }
-    //           ]
-    //       },
-    //     templates: {
-    //         files: [
-    //             {
-    //                 expand: true,
-    //                 cwd: '<%= paths[grunt.task.current.args[0]] %>/templates',
-    //                 src: '*.html',
-    //                 dest: '<%= paths[grunt.task.current.args[1]] %>/templates'
-    //               }
-    //           ]
-    //       },
-    //     partials: {
-    //         files: [
-    //             {
-    //                 expand: true,
-    //                 cwd: '<%= paths[grunt.task.current.args[0]] %>/partials',
-    //                 src: '*.html',
-    //                 dest: '<%= paths[grunt.task.current.args[1]] %>/partials'
-    //               }
-    //           ]
-    //       },
-    //     misc: {
-    //         files: [
-    //             {
-    //                 expand: true,
-    //                 cwd: '<%= paths[grunt.task.current.args[0]] %>',
-    //                 src: [
-    //                     '**/**',
-    //                     '!scripts/**/*.js',
-    //                     '!libs/**/*.js',
-    //                     '!styles/**/*.css',
-    //                     '!images/**/*.{png,jpg,jpeg}',
-    //                     '!svg/**/*.svg',
-    //                     '!**/*.html'
-    //                   ],
-    //                 dest: '<%= paths[grunt.task.current.args[1]] %>'
-    //               }
-    //           ]
-    //       },
-    //   },
 
     // Javascript
     jshint: {
