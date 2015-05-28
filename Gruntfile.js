@@ -388,6 +388,24 @@ module.exports = function(grunt) {
     pipe.run(tasks, files, {preclean: false});
   });
 
+  grunt.registerTask('build:misc', function() {
+    var files = {
+      expand: true,
+      cwd: paths.working + '/partials',
+      src: [
+          '**/**',
+          '!scripts/**/*.js',
+          '!styles/**/*.css',
+          '!images/**/*.{jpg,jpeg,gif,png}',
+          '!svg/**/*.svg',
+          '!**/*.html'
+        ],
+      dest: paths.srv + '/partials'
+    };
+
+    pipe.run([], files);
+  });
+
   grunt.registerTask('build:all', [
     'build:js',
     'build:css',
@@ -396,7 +414,8 @@ module.exports = function(grunt) {
     'build:misc',
     'build:templates',
     'build:partials',
-    'build:html'
+    'build:html',
+    'build:misc'
   ]);
 
   // Default task.
