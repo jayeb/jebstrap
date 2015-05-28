@@ -23,6 +23,7 @@
     "grunt-importbower": "git://github.com/jayeb/grunt-importbower.git",
     "grunt-jscs": "^1.8.0",
     "grunt-processhtml": "^0.3.7",
+    "grunt-svgmin": "^2.0.1",
     "grunt-svgstore": "^0.5.0",
     "htmlprocessor": "^0.1.10",
     "jit-grunt": "^0.9.1",

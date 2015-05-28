@@ -276,6 +276,7 @@ module.exports = function(grunt) {
         files;
 
     tasks.push(
+      'svgmin',
       {
           task: 'svgstore',
           files: {
