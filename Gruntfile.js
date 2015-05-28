@@ -2,9 +2,6 @@ var _ = require('lodash');
 
 module.exports = function(grunt) {
   var env = (grunt.option('env') === 'prod' ? 'prod' : 'dev'),
-      bundleHunter,
-      bundles,
-      getBundles,
       bowerLibs,
       getBowerLibs;
       paths = {
@@ -13,6 +10,7 @@ module.exports = function(grunt) {
           working: 'app'
         },
       pipe = require('pipe-grunt')(grunt, {tempCwd: paths.tmp}),
+      bundleHunter = require('bundlehunter'),
 
   require('time-grunt')(grunt);
   require('jit-grunt')(grunt);
@@ -165,23 +163,6 @@ module.exports = function(grunt) {
       }
   });
 
-  bundleHunter = require('./utils/bundlehunter-grunt')(grunt);
-
-  getBundles = function() {
-    if (!bundles) {
-      bundles = bundleHunter.findIn({
-        expand: true,
-        cwd: grunt.config('paths.working'),
-        src: '*.html'
-      }, {
-        types: ['js', 'css'],
-        disallowBundles: ['libs']
-      });
-    }
-
-    return bundles;
-  }
-
   getBowerLibs = function () {
     if (!bowerLibs) {
       bowerLibs = bundleHunter.findInBower({
@@ -211,7 +192,11 @@ module.exports = function(grunt) {
     ];
 
     if (env === 'prod') {
-      bundles = getBundles();
+      bundles = bundleHunter(paths.working + '/*.html', {
+        types: ['js'],
+        excludeBundles: ['libs']
+      });
+
       tasks.push(
         {
             task: 'uglify',
@@ -251,7 +236,11 @@ module.exports = function(grunt) {
     ];
 
     if (env === 'prod') {
-      bundles = getBundles();
+      bundles = bundleHunter(paths.working + '/*.html', {
+        types: ['css'],
+        excludeBundles: ['libs']
+      });
+
       tasks.push(
         {
             task: 'cssmin',

@@ -6,6 +6,7 @@
   "repository": "jayeb/jebweb.git",
   "devDependencies": {
     "bower": "^1.4.1",
+    "bundlehunter": "git://github.com/jayeb/bundlehunter.git",
     "chalk": "^1.0.0",
     "grunt": "^0.4.5",
     "grunt-autoprefixer": "^3.0.0",
