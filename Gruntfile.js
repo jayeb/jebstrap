@@ -183,8 +183,7 @@ module.exports = function(grunt) {
 
     if (env === 'prod') {
       bundles = bundleHunter(paths.working + '/*.html', {
-        types: ['js'],
-        excludeBundles: ['libs']
+        types: ['js']
       });
 
       tasks.push(
@@ -230,8 +229,7 @@ module.exports = function(grunt) {
 
     if (env === 'prod') {
       bundles = bundleHunter(paths.working + '/*.html', {
-        types: ['css'],
-        excludeBundles: ['libs']
+        types: ['css']
       });
 
       tasks.push(
