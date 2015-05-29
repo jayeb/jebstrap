@@ -9,7 +9,7 @@ module.exports = function(grunt) {
         },
       pipe = require('pipe-grunt')(grunt, {tempCwd: paths.tmp}),
       bundleHunter = require('bundlehunter'),
-      bowerDeps = require('./utils/bowerdeps');
+      bowerDeps = require('bowerdeps');
 
   require('time-grunt')(grunt);
   require('jit-grunt')(grunt);

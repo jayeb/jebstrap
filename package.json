@@ -6,6 +6,7 @@
   "repository": "jayeb/jebweb.git",
   "devDependencies": {
     "bower": "^1.4.1",
+    "bowerdeps": "git://github.com/jayeb/bowerdeps.git",
     "bundlehunter": "git://github.com/jayeb/bundlehunter.git",
     "chalk": "^1.0.0",
     "glob": "^5.0.10",
