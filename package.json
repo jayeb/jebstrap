@@ -8,13 +8,9 @@
     "bower": "^1.4.1",
     "bowerdeps": "git://github.com/jayeb/bowerdeps.git",
     "bundlehunter": "git://github.com/jayeb/bundlehunter.git",
-    "chalk": "^1.0.0",
-    "glob": "^5.0.10",
     "grunt": "^0.4.5",
     "grunt-autoprefixer": "^3.0.0",
     "grunt-chromeload": "git://github.com/jayeb/grunt-chromeload",
-    "grunt-contrib-clean": "^0.6.0",
-    "grunt-contrib-copy": "^0.8.0",
     "grunt-contrib-cssmin": "^0.12.2",
     "grunt-contrib-imagemin": "^0.9.4",
     "grunt-contrib-jshint": "^0.11.2",
@@ -22,7 +18,6 @@
     "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-express": "^1.4.1",
-    "grunt-importbower": "git://github.com/jayeb/grunt-importbower.git",
     "grunt-jscs": "^1.8.0",
     "grunt-processhtml": "^0.3.7",
     "grunt-svgmin": "^2.0.1",
@@ -35,8 +30,7 @@
     "pipe-grunt": "git://github.com/jayeb/pipe-grunt.git",
     "precommit-hook": "^2.0.1",
     "reporter-plus": "git://github.com/jayeb/reporter-plus.git",
-    "time-grunt": "^1.1.1",
-    "wiredep": "^2.2.2"
+    "time-grunt": "^1.1.1"
   },
   "scripts": {
     "jshint": "jshint --reporter=node_modules/reporter-plus/jshint/jshint.js ./app/scripts",
