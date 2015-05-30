@@ -2,8 +2,22 @@
   "name": "jebWeb",
   "version": "0.1.0",
   "description": "Bootstrap for personal projects, plus a memory bank for tracking personal best-practices with certain tools.",
-  "author": "Jason Eberle",
-  "repository": "jayeb/jebweb.git",
+  "files": [
+    ".gitignore",
+    ".jscsrc",
+    ".jshintignore",
+    ".jshintrc",
+    "bower.json",
+    "Gruntfile.js",
+    "package.json",
+    "README.md"
+  ],
+  "author": {
+    "name": "Jason Eberle",
+    "email": "eberle.jason@gmail.com"
+  },
+  "repository": "jayeb/jebweb",
+  "license": "MIT",
   "devDependencies": {
     "bower": "^1.4.1",
     "bowerdeps": "git://github.com/jayeb/bowerdeps.git",
