@@ -65,28 +65,25 @@ module.exports = function(grunt) {
       },
 
     // HTML
+    insertbower: {
+        options: {
+            includeBase: 'libs',
+            types: {
+                js: {
+                    includeBase: 'scripts'
+                  },
+                css: {
+                    includeBase: 'styles'
+                  }
+              }
+          }
+      },
     processhtml: {
         options: {
             commentMarker: 'process',
             includeBase: '<%= paths.srv %>',
-            // customBlockTypes: ['utils/bowerblock.js'],
             environment: env,
             strip: true
-          }
-      },
-
-    // Bower libs
-    importbower: {
-        options: {
-            cwd: '<%= paths.srv %>',
-            import_types: {
-                js: {
-                    dest: '<%= paths.srv %>/js_libs'
-                  },
-                css: {
-                    dest: '<%= paths.srv %>/css_libs'
-                  }
-              }
           }
       },
 
@@ -379,7 +376,7 @@ module.exports = function(grunt) {
         files;
 
     tasks.push('processhtml');
-    tasks.push('importbower');
+    tasks.push('insertbower');
 
     files = {
       expand: true,

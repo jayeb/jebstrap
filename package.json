@@ -18,6 +18,7 @@
     "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-express": "^1.4.1",
+    "grunt-insertbower": "git://github.com/jayeb/grunt-insertbower.git",
     "grunt-jscs": "^1.8.0",
     "grunt-processhtml": "^0.3.7",
     "grunt-svgmin": "^2.0.1",
