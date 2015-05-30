@@ -156,6 +156,20 @@ module.exports = function(grunt) {
                 'build:html',
                 'chromeload:server'
               ]
+          },
+        misc: {
+            files: [
+                '**/**',
+                '!scripts/**/*.js',
+                '!styles/**/*.css',
+                '!images/**/*.{jpg,jpeg,gif,png}',
+                '!svg/**/*.svg',
+                '!**/*.html'
+              ],
+            tasks: [
+                'build:misc',
+                'chromeload:server'
+              ]
           }
       }
   });
