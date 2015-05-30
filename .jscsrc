@@ -1,5 +1,4 @@
 {
-  "disallowAnonymousFunctions": true,
   "disallowEmptyBlocks": true,
   "disallowImplicitTypeConversion": ["numeric", "binary", "string"],
   "disallowKeywordsOnNewLine": ["else"],
@@ -12,9 +11,16 @@
   "disallowSpaceAfterPrefixUnaryOperators": true,
   "disallowSpaceBeforePostfixUnaryOperators": true,
   "disallowSpacesInCallExpression": true,
+  "disallowSpacesInFunctionDeclaration": {
+      "beforeOpeningRoundBrace": true
+  },
   "disallowSpacesInsideArrayBrackets": true,
   "disallowSpacesInsideObjectBrackets": true,
-  "disallowSpacesInsideParentheses": { "only": [ "{", "}" ] },
+  "disallowSpacesInsideParentheses": {
+    "only": [
+      "{", "}"
+    ]
+  },
   "disallowTrailingComma": true,
   "disallowTrailingWhitespace": true,
   "disallowYodaConditions": true,
@@ -29,7 +35,12 @@
   "requireLineBreakAfterVariableAssignment": true,
   "requireLineFeedAtFileEnd": true,
   "requireMultipleVarDecl": true,
-  "requireNamedUnassignedFunctions": true,
+  "requireNamedUnassignedFunctions": {
+    "allExcept": [
+      "describe",
+      "it"
+    ]
+  },
   "requireOperatorBeforeLineBreak": true,
   "requireParenthesesAroundIIFE": true,
   "requireSemicolons": true,
@@ -47,6 +58,12 @@
   "requireSpaceBetweenArguments": true,
   "requireSpacesInConditionalExpression": true,
   "requireSpacesInForStatement": true,
+  "requireSpacesInFunctionDeclaration": {
+      "beforeOpeningCurlyBrace": true
+  },
+  "requireSpacesInFunctionExpression": {
+      "beforeOpeningCurlyBrace": true
+  },
   "safeContextKeyword": ["th"],
   "validateAlignedFunctionParameters": {
     "lineBreakAfterOpeningBraces": true,
