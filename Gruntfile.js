@@ -90,23 +90,28 @@ module.exports = function(grunt) {
     clean: [paths.srv],
 
     // Server and loading tasks
-    express: {
-        options: {
-            port: env === 'dev' ? 9010 : 9011,
-            hostname: '0.0.0.0',
-            bases: [paths.srv]
+    connect: {
+        server: {
+            options: {
+                port: env === 'dev' ? 9010 : 9011,
+                hostname: '0.0.0.0',
+                base: './' + paths.srv
+              }
           }
       },
     chromeload: {
         server: {
-            reload_pattern: 'https?:\/\/localhost:<%= express.options.port %>',
-            new_url: 'http://localhost:<%= express.options.port %>'
+            reload_pattern: 'https?:\/\/localhost:<%= connect.server.options.port %>',
+            new_url: 'http://localhost:<%= connect.server.options.port %>'
           }
       },
     watch: {
         js: {
+            options: {
+                cwd: paths.working
+              },
             files: [
-                paths.working + '/scripts/**/*.js',
+                'scripts/**/*.*',
               ],
             tasks: [
                 'build:js',
@@ -114,8 +119,11 @@ module.exports = function(grunt) {
               ]
           },
         css: {
+            options: {
+                cwd: paths.working
+              },
             files: [
-                paths.working + '/styles/**/*.css',
+                'styles/**/*.*',
               ],
             tasks: [
                 'build:css',
@@ -123,8 +131,11 @@ module.exports = function(grunt) {
               ]
           },
         images: {
+            options: {
+                cwd: paths.working
+              },
             files: [
-                paths.working + '/images/**/*.{jpg,jpeg,gif,png}',
+                'images/**/*.{jpg,jpeg,gif,png}',
               ],
             tasks: [
                 'build:images',
@@ -132,8 +143,11 @@ module.exports = function(grunt) {
               ]
           },
         svg: {
+            options: {
+                cwd: paths.working
+              },
             files: [
-                paths.working + '/svg/**/*.svg',
+                'svg/**/*.*',
               ],
             tasks: [
                 'build:svg',
@@ -141,8 +155,11 @@ module.exports = function(grunt) {
               ]
           },
         html: {
+            options: {
+                cwd: paths.working
+              },
             files: [
-                paths.working + '/**/*.html',
+                '**/*.html',
               ],
             tasks: [
                 'build:html',
@@ -160,13 +177,16 @@ module.exports = function(grunt) {
               ]
           },
         misc: {
+            options: {
+                cwd: paths.working
+              },
             files: [
-                paths.working + '/**/**',
-                '!' + paths.working + '/scripts/**/*.js',
-                '!' + paths.working + '/styles/**/*.css',
-                '!' + paths.working + '/images/**/*.{jpg,jpeg,gif,png}',
-                '!' + paths.working + '/svg/**/*.svg',
-                '!' + paths.working + '/**/*.html'
+                '**/*.*',
+                '!scripts/**/*.*',
+                '!styles/**/*.*',
+                '!images/**/*.{jpg,jpeg,gif,png}',
+                '!svg/**/*.*',
+                '!**/*.html'
               ],
             tasks: [
                 'build:misc',
@@ -456,7 +476,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('serve', [
     'build:all',
-    'express',
+    'connect:server',
     'chromeload:server',
     'watch'
   ]);
