@@ -15,11 +15,6 @@ module.exports = function(grunt) {
   require('jit-grunt')(grunt);
 
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-    name: '<%= pkg.name %>',
-    default_filename: '<%= pkg.name.toLowerCase().replace(/[^A-Za-z0-9]/g, "_") %>',
-    paths: paths,
-
     // Javascript
     jshint: {
         src: '<%= paths.working %>/scripts/**/*.js',
