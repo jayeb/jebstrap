@@ -37,6 +37,11 @@ module.exports = function(grunt) {
       },
 
     // CSS
+    stylus: {
+        options: {
+            compress: false
+          }
+      },
     autoprefixer: {
         options: {
             browsers: ['last 2 versions']
