@@ -161,12 +161,12 @@ module.exports = function(grunt) {
           },
         misc: {
             files: [
-                '**/**',
-                '!scripts/**/*.js',
-                '!styles/**/*.css',
-                '!images/**/*.{jpg,jpeg,gif,png}',
-                '!svg/**/*.svg',
-                '!**/*.html'
+                paths.working + '/**/**',
+                '!' + paths.working + '/scripts/**/*.js',
+                '!' + paths.working + '/styles/**/*.css',
+                '!' + paths.working + '/images/**/*.{jpg,jpeg,gif,png}',
+                '!' + paths.working + '/svg/**/*.svg',
+                '!' + paths.working + '/**/*.html'
               ],
             tasks: [
                 'build:misc',
