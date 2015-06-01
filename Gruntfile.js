@@ -449,7 +449,7 @@ module.exports = function(grunt) {
   grunt.registerTask('serve', [
     'build:all',
     'express',
-    'load',
+    'chromeload:server',
     'watch'
   ]);
 
