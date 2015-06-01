@@ -87,6 +87,9 @@ module.exports = function(grunt) {
           }
       },
 
+    // Nuclear option
+    clean: ['<%= paths.srv %>'],
+
     // Server and loading tasks
     express: {
         options: {
@@ -421,6 +424,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('build:all', [
+    'clean',
     'build:js',
     'build:css',
     'build:images',

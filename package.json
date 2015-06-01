@@ -25,6 +25,7 @@
     "grunt": "^0.4.5",
     "grunt-autoprefixer": "^3.0.0",
     "grunt-chromeload": "git://github.com/jayeb/grunt-chromeload",
+    "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-cssmin": "^0.12.2",
     "grunt-contrib-imagemin": "^0.9.4",
     "grunt-contrib-jshint": "^0.11.2",
