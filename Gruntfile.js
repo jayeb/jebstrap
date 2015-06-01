@@ -17,14 +17,14 @@ module.exports = function(grunt) {
   grunt.initConfig({
     // Javascript
     jshint: {
-        src: '<%= paths.working %>/scripts/**/*.js',
+        src: paths.working + '/scripts/**/*.js',
         options: {
             jshintrc: '.jshintrc',
             reporter: require('reporter-plus/jshint')
           }
       },
     jscs: {
-        src: '<%= paths.working %>/scripts/**/*.js',
+        src: paths.working + '/scripts/**/*.js',
         options: {
             config: ".jscsrc",
             reporter: require('reporter-plus/jscs').path
@@ -80,14 +80,14 @@ module.exports = function(grunt) {
     processhtml: {
         options: {
             commentMarker: 'process',
-            includeBase: '<%= paths.srv %>',
+            includeBase: paths.srv,
             environment: env,
             strip: true
           }
       },
 
     // Nuclear option
-    clean: ['<%= paths.srv %>'],
+    clean: [paths.srv],
 
     // Server and loading tasks
     express: {
@@ -106,7 +106,7 @@ module.exports = function(grunt) {
     watch: {
         js: {
             files: [
-                '<%= paths.working %>/scripts/**/*.js',
+                paths.working + '/scripts/**/*.js',
               ],
             tasks: [
                 'build:js',
@@ -115,7 +115,7 @@ module.exports = function(grunt) {
           },
         css: {
             files: [
-                '<%= paths.working %>/styles/**/*.css',
+                paths.working + '/styles/**/*.css',
               ],
             tasks: [
                 'build:css',
@@ -124,7 +124,7 @@ module.exports = function(grunt) {
           },
         images: {
             files: [
-                '<%= paths.working %>/images/**/*.{jpg,jpeg,gif,png}',
+                paths.working + '/images/**/*.{jpg,jpeg,gif,png}',
               ],
             tasks: [
                 'build:images',
@@ -133,7 +133,7 @@ module.exports = function(grunt) {
           },
         svg: {
             files: [
-                '<%= paths.working %>/svg/**/*.svg',
+                paths.working + '/svg/**/*.svg',
               ],
             tasks: [
                 'build:svg',
@@ -142,7 +142,7 @@ module.exports = function(grunt) {
           },
         html: {
             files: [
-                '<%= paths.working %>/**/*.html',
+                paths.working + '/**/*.html',
               ],
             tasks: [
                 'build:html',
