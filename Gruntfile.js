@@ -220,7 +220,7 @@ module.exports = function(grunt) {
       dest: paths.srv + '/scripts'
     };
 
-    pipe.run(tasks, files);
+    pipe(tasks, files);
   });
 
   grunt.registerTask('build:css', function() {
@@ -263,7 +263,7 @@ module.exports = function(grunt) {
       dest: paths.srv + '/styles'
     };
 
-    pipe.run(tasks, files);
+    pipe(tasks, files);
   });
 
   grunt.registerTask('build:images', function() {
@@ -281,7 +281,7 @@ module.exports = function(grunt) {
       dest: paths.srv + '/images'
     };
 
-    pipe.run(tasks, files);
+    pipe(tasks, files);
   });
 
   grunt.registerTask('build:svg', function() {
@@ -305,7 +305,7 @@ module.exports = function(grunt) {
       dest: paths.srv + '/svg'
     };
 
-    pipe.run(tasks, files);
+    pipe(tasks, files);
   });
 
   grunt.registerTask('build:libs', function() {
@@ -345,8 +345,8 @@ module.exports = function(grunt) {
       dest: paths.srv + '/libs/styles'
     };
 
-    pipe.run(jsTasks, jsFiles);
-    pipe.run(cssTasks, cssFiles);
+    pipe(jsTasks, jsFiles);
+    pipe(cssTasks, cssFiles);
   });
 
   grunt.registerTask('build:partials', function() {
@@ -364,7 +364,7 @@ module.exports = function(grunt) {
       dest: paths.srv + '/partials'
     };
 
-    pipe.run(tasks, files);
+    pipe(tasks, files);
   });
 
   grunt.registerTask('build:templates', function() {
@@ -382,7 +382,7 @@ module.exports = function(grunt) {
       dest: paths.srv + '/templates'
     };
 
-    pipe.run(tasks, files);
+    pipe(tasks, files);
   });
 
   grunt.registerTask('build:html', function() {
@@ -399,7 +399,7 @@ module.exports = function(grunt) {
       dest: paths.srv
     };
 
-    pipe.run(tasks, files, {preclean: false});
+    pipe(tasks, files);
   });
 
   grunt.registerTask('build:misc', function() {
@@ -417,7 +417,7 @@ module.exports = function(grunt) {
       dest: paths.srv + '/partials'
     };
 
-    pipe.run([], files);
+    pipe([], files);
   });
 
   grunt.registerTask('build:all', [
