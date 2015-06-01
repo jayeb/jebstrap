@@ -405,8 +405,8 @@ module.exports = function(grunt) {
     var tasks = [],
         files;
 
-    tasks.push('processhtml');
     tasks.push('insertbower');
+    tasks.push('processhtml');
 
     files = {
       expand: true,
