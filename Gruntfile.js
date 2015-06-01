@@ -67,13 +67,12 @@ module.exports = function(grunt) {
     // HTML
     insertbower: {
         options: {
-            includeBase: 'libs',
             types: {
                 js: {
-                    includeBase: 'scripts'
+                    includeBase: 'scripts/libs'
                   },
                 css: {
-                    includeBase: 'styles'
+                    includeBase: 'styles/libs'
                   }
               }
           }
@@ -332,21 +331,35 @@ module.exports = function(grunt) {
         task: 'cssmin',
         files: 'libs.min.css'
       });
+
+      jsFiles = {
+        expand: true,
+        flatten: true,
+        src: _.chain(libs.js).pluck('files').flatten().value(),
+        dest: paths.srv + '/scripts'
+      };
+
+      cssFiles = {
+        expand: true,
+        flatten: true,
+        src: _.chain(libs.css).pluck('files').flatten().value(),
+        dest: paths.srv + '/styles'
+      };
+    } else {
+      jsFiles = {
+        expand: true,
+        flatten: true,
+        src: _.chain(libs.js).pluck('files').flatten().value(),
+        dest: paths.srv + '/scripts/libs'
+      };
+
+      cssFiles = {
+        expand: true,
+        flatten: true,
+        src: _.chain(libs.css).pluck('files').flatten().value(),
+        dest: paths.srv + '/styles/libs'
+      };
     }
-
-    jsFiles = {
-      expand: true,
-      flatten: true,
-      src: _.chain(libs.js).pluck('files').flatten().value(),
-      dest: paths.srv + '/libs/scripts'
-    };
-
-    cssFiles = {
-      expand: true,
-      flatten: true,
-      src: _.chain(libs.css).pluck('files').flatten().value(),
-      dest: paths.srv + '/libs/styles'
-    };
 
     pipe(jsTasks, jsFiles);
     pipe(cssTasks, cssFiles);
