@@ -290,8 +290,11 @@ module.exports = function(grunt) {
     var tasks = [],
         files;
 
+    if (env === 'prod') {
+      tasks.push('svgmin');
+    }
+
     tasks.push(
-      'svgmin',
       {
           task: 'svgstore',
           files: {
