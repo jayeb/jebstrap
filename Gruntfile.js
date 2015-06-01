@@ -94,13 +94,13 @@ module.exports = function(grunt) {
         options: {
             port: env === 'dev' ? 9010 : 9011,
             hostname: '0.0.0.0',
-            bases: env === 'dev' ? ['_dev'] : ['_prod']
+            bases: [paths.srv]
           }
       },
     chromeload: {
         server: {
-            reload_pattern: 'https?:\/\/<%= express.options.hostname %>:<%= express.options.port %>',
-            new_url: 'http://<%= express.options.hostname %>:<%= express.options.port %>'
+            reload_pattern: 'https?:\/\/localhost:<%= express.options.port %>',
+            new_url: 'http://localhost:<%= express.options.port %>'
           }
       },
     watch: {
