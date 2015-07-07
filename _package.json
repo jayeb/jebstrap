@@ -1,0 +1,59 @@
+{
+  "name": "jebWeb",
+  "version": "0.1.0",
+  "description": "Bootstrap for personal projects, plus a memory bank for tracking personal best-practices with certain tools.",
+  "files": [
+    ".gitignore",
+    ".jscsrc",
+    ".jshintignore",
+    ".jshintrc",
+    "bower.json",
+    "Gruntfile.js",
+    "package.json",
+    "README.md"
+  ],
+  "author": {
+    "name": "Jason Eberle",
+    "email": "eberle.jason@gmail.com"
+  },
+  "repository": "jayeb/jebweb",
+  "license": "MIT",
+  "devDependencies": {
+    "bower": "^1.4.1",
+    "bowerdeps": "git://github.com/jayeb/bowerdeps.git",
+    "bundlehunter": "git://github.com/jayeb/bundlehunter.git",
+    "grunt": "^0.4.5",
+    "grunt-autoprefixer": "^3.0.0",
+    "grunt-chromeload": "git://github.com/jayeb/grunt-chromeload",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-connect": "^0.10.1",
+    "grunt-contrib-cssmin": "^0.12.2",
+    "grunt-contrib-imagemin": "^0.9.4",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-contrib-stylus": "^0.21.0",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-insertbower": "git://github.com/jayeb/grunt-insertbower.git",
+    "grunt-jscs": "^1.8.0",
+    "grunt-processhtml": "^0.3.7",
+    "grunt-svgmin": "^2.0.1",
+    "grunt-svgstore": "^0.5.0",
+    "htmlprocessor": "^0.1.10",
+    "jit-grunt": "^0.9.1",
+    "jscs": "^1.13.1",
+    "jshint": "^2.7.0",
+    "lodash": "^3.8.0",
+    "pipe-grunt": "git://github.com/jayeb/pipe-grunt.git",
+    "precommit-hook": "^2.0.1",
+    "reporter-plus": "git://github.com/jayeb/reporter-plus.git",
+    "time-grunt": "^1.1.1"
+  },
+  "scripts": {
+    "jshint": "jshint --reporter=node_modules/reporter-plus/jshint/jshint.js ./app/scripts",
+    "jscs": "jscs --reporter=node_modules/reporter-plus/jscs/index.js ./app/scripts"
+  },
+  "pre-commit": [
+    "jshint",
+    "jscs"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "js": {
+      "app": [
+          "a.js",
+          "b.js",
+          "c.js"
+        ],
+      "utils": [
+          "utils.1.js",
+          "utils.2.js",
+          "utils.3.js"
+        ]
+    },
+  "css": {
+      "app": [
+          "a.css",
+          "b.css",
+          "c.css"
+        ]
+    },
+
+}
